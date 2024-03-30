@@ -37,7 +37,8 @@ public class EmployeeService {
     }
 
     public EmployeeDto getEmployeeById(Long id) throws Exception{
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        Optional<EmployeeEntity> employeeEntityOpt = employeeRepository.findById(id);
+        EmployeeEntity employeeEntity = employeeEntityOpt.get();
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setName(employeeEntity.getName());
         employeeDto.setPhoneNumber(employeeEntity.getPhoneNumber());
