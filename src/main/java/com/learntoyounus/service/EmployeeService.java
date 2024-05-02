@@ -4,6 +4,10 @@ import com.learntoyounus.domain.EmployeeDto;
 import com.learntoyounus.entity.EmployeeEntity;
 import com.learntoyounus.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +30,11 @@ public class EmployeeService {
         return employeeDto;
     }
 
-    public List<EmployeeDto> getAllEmployee() {
-        List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
+    public List<EmployeeDto> getAllEmployee(int pageNumber, int pageSize, String sortOrder) {
+        Sort sort = sortOrder.equals("asc") ? Sort.by("name").ascending() : Sort.by("name").descending();
+        Pageable pagination = PageRequest.of(pageNumber, pageSize, sort);
+        Page<EmployeeEntity> pageContent = employeeRepository.findAll(pagination);
+        List<EmployeeEntity> employeeEntities = pageContent.getContent();
         List<EmployeeDto> employees = employeeEntities.stream()
                 .map(employee -> new EmployeeDto(employee.getName(),
                         employee.getPhoneNumber(),employee.getDesignation()))

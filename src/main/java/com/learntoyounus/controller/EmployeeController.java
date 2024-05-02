@@ -20,8 +20,8 @@ public class EmployeeController {
     }
 
     @GetMapping("")
-    public List<EmployeeDto> getAllEmployee() {
-        return employeeService.getAllEmployee();
+    public List<EmployeeDto> getAllEmployee(@RequestParam int page, @RequestParam int size, @RequestParam String sort) {
+        return employeeService.getAllEmployee(page, size, sort);
     }
 
     @GetMapping("/{id}")
