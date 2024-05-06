@@ -45,6 +45,11 @@ public class EmployeeService {
 
     public EmployeeDto getEmployeeById(Long id) throws Exception{
         Optional<EmployeeEntity> employeeEntityOpt = employeeRepository.findById(id);
+
+        if (employeeEntityOpt.isEmpty()) {
+            throw new Exception("Employee not found for id: " + id);
+        }
+
         EmployeeEntity employeeEntity = employeeEntityOpt.get();
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setName(employeeEntity.getName());
